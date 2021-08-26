@@ -111,11 +111,8 @@ export default class extends BotCommand {
 		const maxTripLength = msg.author.maxTripLength(Activity.ClueCompletion);
 		const maxPerTrip = Math.floor(maxTripLength / timeToFinish);
 		if (quantity === -1) quantity = maxPerTrip;
-
-		let qtyWarning = '';
 		if (numOfScrolls < quantity) {
-			qtyWarning = `You can't do ${quantity} because you only have ${numOfScrolls}x ${clueTier.name.toLowerCase()} clue scrolls.`;
-			quantity = numOfScrolls;
+			return msg.channel.send(`You only have ${numOfScrolls}x ${clueTier.name.toLowerCase()} clue scrolls.`);
 		}
 
 		let duration = timeToFinish * quantity;
@@ -151,7 +148,7 @@ export default class extends BotCommand {
 		return msg.channel.send(
 			`${msg.author.minionName} is now completing ${quantity}x ${
 				clueTier.name
-			} clues, it'll take around ${formatDuration(duration)} to finish. ${qtyWarning}${
+			} clues, it'll take around ${formatDuration(duration)} to finish.${
 				boosts.length > 0 ? `\n\n**Boosts:** ${boosts.join(', ')}` : ''
 			}`
 		);
